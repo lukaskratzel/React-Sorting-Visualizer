@@ -20,9 +20,10 @@ export default function Settings({ setSettings, resetList }) {
         id="algorithmSelector"
         className="m-2 col-auto bg-dark text-light border-light rounded"
       >
-        <option value="BubbleSort">Bubble Sort</option>
-        <option value="SelectionSort">Selection Sort</option>
-        <option value="InsertionSort">Insertion Sort</option>
+        <option value="BubbleSort">BubbleSort</option>
+        <option value="SelectionSort">SelectionSort</option>
+        <option value="InsertionSort">InsertionSort</option>
+        <option value="QuickSort">QuickSort</option>
       </select>
 
       <input

@@ -82,7 +82,37 @@ export default function Body() {
       list[j + 1] = key;
       setList([...list]);
       await sleep(delay);
+      setBorderColor("border-light");
     }
+  }
+  async function quickSort(list, delay) {
+    const stack = [];
+    stack.push({l : 0, r : list.length - 1});
+    while (stack.length != 0) {
+      const {l, r} = stack.pop();
+      if (l >= r) continue;
+      const pivot = list[r];
+      let i = l - 1;
+      let j = r;
+      do {
+        do {i++} while (list[i] < pivot);
+        do {j--} while (j >= l && list[j] > pivot);
+        if (i < j) {
+          const temp = list[i];
+          list[i] = list[j];
+          list[j] = temp;
+          setList([...list]);
+          await sleep(delay);
+        }
+      } while (i < j);
+      const temp = list[i];
+      list[i] = list[r];
+      list[r] = temp;
+      stack.push({l : i + 1, r : r});
+      stack.push({l : l, r : i - 1});
+      setList([...list]);
+      await sleep(delay);
+    }    
     setBorderColor("border-light");
   }
 
@@ -99,9 +129,12 @@ export default function Body() {
         case "InsertionSort":
           insertionSort(list, settings.delay);
           break;
+        case "QuickSort":
+          quickSort(list, settings.delay);
+          break;
         default:
           break;
-      }
+        }
     }
   }, [settings]);
 
@@ -109,7 +142,7 @@ export default function Body() {
     <div className="text-light py-5">
       <div className="container-lg">
         <Visualizer list={list} borderColor={borderColor} />
-        <Settings setSettings={setSettings} resetList={() => {setList(generateRandomList())}} />
+        <Settings setSettings={setSettings} resetList={() => setList(generateRandomList())} />
       </div>
     </div>
   );

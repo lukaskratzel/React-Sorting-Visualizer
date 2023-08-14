@@ -1,5 +1,6 @@
 # Visualizing sorting algorithms
 Currently supported:
-- Bubble Sort
-- Selection Sort
-- Insertion Sort
+- BubbleSort
+- SelectionSort
+- InsertionSort
+- QuickSort
