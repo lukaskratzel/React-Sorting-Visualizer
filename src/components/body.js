@@ -88,14 +88,14 @@ export default function Body() {
   async function quickSort(list, delay) {
     const stack = [];
     stack.push({l : 0, r : list.length - 1});
-    while (stack.length != 0) {
+    while (stack.length !== 0) {
       const {l, r} = stack.pop();
       if (l >= r) continue;
       const pivot = list[r];
       let i = l - 1;
       let j = r;
       do {
-        do {i++} while (list[i] < pivot);
+        do {i++} while (list[i] < pivot);
         do {j--} while (j >= l && list[j] > pivot);
         if (i < j) {
           const temp = list[i];
@@ -115,6 +115,46 @@ export default function Body() {
     }    
     setBorderColor("border-light");
   }
+  async function mergeSort(list, helper, delay) {
+    const sortStack = [];
+    const mergeStack = [];
+    sortStack.push({l : 0, r : list.length - 1});
+    while (sortStack.length !== 0) {
+      const {l, r} = sortStack.pop();
+      if (l >= r) continue;
+      mergeStack.push({l : l, r : r});
+      const middle = Math.floor((l + r) / 2);
+      sortStack.push({l : l, r : middle});
+      sortStack.push({l : middle + 1, r : r});
+    }
+    while (mergeStack.length !== 0) {
+      const {l, r} = mergeStack.pop();
+      await merge(list, l, Math.floor((l + r) / 2), r, helper, delay);
+    }
+    setBorderColor("border-light");
+  }
+  async function merge(list, l, m, r, helper, delay) {
+    let indexL = l;
+    let indexR = m + 1;
+    let length = r - l  + 1;
+    for (let i = 0; i < length; i++) {
+      if (indexL > m) {
+        helper[i] = list[indexR++];
+      } else if (indexR > r) {
+        helper[i] = list[indexL++];
+      } else if (list[indexL] <= list[indexR]) {
+        helper[i] = list[indexL++];
+      } else {
+        helper[i] = list[indexR++];
+      }
+    }
+    //copy back
+    for (let i = 0; i < length; i++) {
+      list[l + i] = helper[i];
+    }
+    setList([...list]);
+    await sleep(delay);
+  }
 
   useEffect(() => {
     if (settings.run) {
@@ -131,6 +171,9 @@ export default function Body() {
           break;
         case "QuickSort":
           quickSort(list, settings.delay);
+          break;
+        case "MergeSort":
+          mergeSort(list, new Array(list.length), settings.delay);
           break;
         default:
           break;

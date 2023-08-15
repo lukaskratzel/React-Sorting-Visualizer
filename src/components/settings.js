@@ -24,6 +24,7 @@ export default function Settings({ setSettings, resetList }) {
         <option value="SelectionSort">SelectionSort</option>
         <option value="InsertionSort">InsertionSort</option>
         <option value="QuickSort">QuickSort</option>
+        <option value="MergeSort">MergeSort</option>
       </select>
 
       <input
